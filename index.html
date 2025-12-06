@@ -1429,8 +1429,30 @@
         }
         
         // Download PDF report
-        function downloadPDFReport() {
-            window.open(`${API_BASE_URL}/report/pdf`, '_blank');
+        async function downloadPDFReport() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/report/pdf`);
+                if (response.status === 501) {
+                    const data = await response.json();
+                    alert('PDF generation is not available: ' + data.error);
+                } else if (response.ok) {
+                    // Create a blob URL for the PDF and trigger download
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'expense_report.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                } else {
+                    alert('Error generating PDF report');
+                }
+            } catch (error) {
+                console.error('Error downloading PDF:', error);
+                alert('Network error. Please try again.');
+            }
         }
         
         // Initialize with a demo user for testing

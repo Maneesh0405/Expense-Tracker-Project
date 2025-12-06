@@ -12,11 +12,16 @@ matplotlib.use('Agg')  # Use non-interactive backend
 import numpy as np
 from collections import defaultdict
 
-# For PDF generation
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import Table, TableStyle
-from reportlab.lib import colors
+# For PDF generation (optional dependency)
+try:
+    from reportlab.pdfgen import canvas
+    from reportlab.lib.pagesizes import letter
+    from reportlab.platypus import Table, TableStyle
+    from reportlab.lib import colors
+    REPORTLAB_AVAILABLE = True
+except ImportError:
+    REPORTLAB_AVAILABLE = False
+    print("Warning: reportlab not available. PDF generation will be disabled.")
 
 app = Flask(__name__, static_folder='.')
 CORS(app)
@@ -666,6 +671,10 @@ def get_income_vs_expenses_chart():
 # Generate PDF report
 @app.route('/api/report/pdf', methods=['GET'])
 def generate_pdf_report():
+    # Check if reportlab is available
+    if not REPORTLAB_AVAILABLE:
+        return jsonify({'error': 'PDF generation not available. reportlab library is not installed.'}), 501
+    
     # For demo purposes, we'll use user_id = 1
     expenses = Expense.query.filter_by(user_id=1).all()
     incomes = Income.query.filter_by(user_id=1).all()
