@@ -28,6 +28,10 @@ CORS(app)
 
 # Configure SQLite database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///expenses.db'
+
+# Check if running on Vercel
+if os.environ.get('VERCEL'):
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/expenses.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -97,6 +101,17 @@ def hash_password(password):
 def index():
     return send_from_directory('.', 'index.html')
 
+def get_current_user_id():
+    user_id = request.headers.get('User-Id')
+    if not user_id:
+        # For backward compatibility or testing, unauthenticated access might be allowed 
+        # but for this specific fix we want to enforce it or return None
+        return None
+    try:
+        return int(user_id)
+    except ValueError:
+        return None
+
 @app.route('/<path:path>')
 def static_files(path):
     if os.path.exists(os.path.join('.', path)):
@@ -150,8 +165,11 @@ def login():
 # Expense Routes
 @app.route('/api/expenses', methods=['GET'])
 def get_expenses():
-    # For demo purposes, we'll use user_id = 1
-    expenses = Expense.query.filter_by(user_id=1).all()
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
+        
+    expenses = Expense.query.filter_by(user_id=user_id).all()
     return jsonify([expense.to_dict() for expense in expenses])
 
 @app.route('/api/expenses', methods=['POST'])
@@ -162,8 +180,12 @@ def add_expense():
     if not all(key in data for key in ('amount', 'description', 'category')):
         return jsonify({'error': 'Missing required fields'}), 400
     
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
+        
     expense = Expense(
-        user_id=1,  # For demo purposes
+        user_id=user_id,
         amount=data['amount'],
         description=data['description'],
         category=data['category']
@@ -191,7 +213,10 @@ def add_expense():
 
 @app.route('/api/expenses/<int:id>', methods=['PUT'])
 def update_expense(id):
-    expense = Expense.query.filter_by(id=id, user_id=1).first_or_404()
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
+    expense = Expense.query.filter_by(id=id, user_id=user_id).first_or_404()
     data = request.get_json()
     
     expense.amount = data.get('amount', expense.amount)
@@ -218,7 +243,10 @@ def update_expense(id):
 
 @app.route('/api/expenses/<int:id>', methods=['DELETE'])
 def delete_expense(id):
-    expense = Expense.query.filter_by(id=id, user_id=1).first_or_404()
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
+    expense = Expense.query.filter_by(id=id, user_id=user_id).first_or_404()
     db.session.delete(expense)
     db.session.commit()
     
@@ -227,8 +255,10 @@ def delete_expense(id):
 # Income Routes
 @app.route('/api/income', methods=['GET'])
 def get_income():
-    # For demo purposes, we'll use user_id = 1
-    incomes = Income.query.filter_by(user_id=1).all()
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
+    incomes = Income.query.filter_by(user_id=user_id).all()
     return jsonify([income.to_dict() for income in incomes])
 
 @app.route('/api/income', methods=['POST'])
@@ -239,8 +269,12 @@ def add_income():
     if not all(key in data for key in ('amount', 'description')):
         return jsonify({'error': 'Missing required fields'}), 400
     
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
+        
     income = Income(
-        user_id=1,  # For demo purposes
+        user_id=user_id,
         amount=data['amount'],
         description=data['description']
     )
@@ -267,7 +301,10 @@ def add_income():
 
 @app.route('/api/income/<int:id>', methods=['PUT'])
 def update_income(id):
-    income = Income.query.filter_by(id=id, user_id=1).first_or_404()
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
+    income = Income.query.filter_by(id=id, user_id=user_id).first_or_404()
     data = request.get_json()
     
     income.amount = data.get('amount', income.amount)
@@ -293,7 +330,10 @@ def update_income(id):
 
 @app.route('/api/income/<int:id>', methods=['DELETE'])
 def delete_income(id):
-    income = Income.query.filter_by(id=id, user_id=1).first_or_404()
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
+    income = Income.query.filter_by(id=id, user_id=user_id).first_or_404()
     db.session.delete(income)
     db.session.commit()
     
@@ -302,10 +342,12 @@ def delete_income(id):
 # Dashboard data
 @app.route('/api/dashboard', methods=['GET'])
 def get_dashboard_data():
-    # For demo purposes, we'll use user_id = 1
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
     # Get all expenses and income for the user
-    expenses = Expense.query.filter_by(user_id=1).all()
-    incomes = Income.query.filter_by(user_id=1).all()
+    expenses = Expense.query.filter_by(user_id=user_id).all()
+    incomes = Income.query.filter_by(user_id=user_id).all()
     
     # Calculate totals
     total_expenses = sum(expense.amount for expense in expenses)
@@ -321,8 +363,8 @@ def get_dashboard_data():
             category_totals[expense.category] = expense.amount
     
     # Recent transactions (last 5)
-    recent_expenses = Expense.query.filter_by(user_id=1).order_by(Expense.date.desc()).limit(5).all()
-    recent_income = Income.query.filter_by(user_id=1).order_by(Income.date.desc()).limit(5).all()
+    recent_expenses = Expense.query.filter_by(user_id=user_id).order_by(Expense.date.desc()).limit(5).all()
+    recent_income = Income.query.filter_by(user_id=user_id).order_by(Income.date.desc()).limit(5).all()
     
     # Combine and sort recent transactions
     all_recent = []
@@ -359,8 +401,10 @@ def get_dashboard_data():
 # Generate pie chart for expenses by category
 @app.route('/api/chart/expense-categories', methods=['GET'])
 def get_expense_categories_chart():
-    # For demo purposes, we'll use user_id = 1
-    expenses = Expense.query.filter_by(user_id=1).all()
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'image': None})
+    expenses = Expense.query.filter_by(user_id=user_id).all()
     
     # Group expenses by category
     category_totals = {}
@@ -401,8 +445,10 @@ def get_expense_categories_chart():
 # Generate pie chart for income by source/description
 @app.route('/api/chart/income-sources', methods=['GET'])
 def get_income_sources_chart():
-    # For demo purposes, we'll use user_id = 1
-    incomes = Income.query.filter_by(user_id=1).all()
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'image': None})
+    incomes = Income.query.filter_by(user_id=user_id).all()
     
     # Group income by description/source
     income_sources = {}
@@ -444,8 +490,10 @@ def get_income_sources_chart():
 # Generate bar chart for income by month
 @app.route('/api/chart/income-by-month', methods=['GET'])
 def get_income_by_month_chart():
-    # For demo purposes, we'll use user_id = 1
-    incomes = Income.query.filter_by(user_id=1).all()
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'image': None})
+    incomes = Income.query.filter_by(user_id=user_id).all()
     
     if not incomes:
         return jsonify({'image': None})
@@ -496,8 +544,10 @@ def get_income_by_month_chart():
 # Generate line chart for expense trends
 @app.route('/api/chart/expense-trends', methods=['GET'])
 def get_expense_trends_chart():
-    # For demo purposes, we'll use user_id = 1
-    expenses = Expense.query.filter_by(user_id=1).all()
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'image': None})
+    expenses = Expense.query.filter_by(user_id=user_id).all()
     
     if not expenses:
         return jsonify({'image': None})
@@ -551,8 +601,10 @@ def get_expense_trends_chart():
 # Generate daily expense tracking chart
 @app.route('/api/chart/daily-expenses', methods=['GET'])
 def get_daily_expenses_chart():
-    # For demo purposes, we'll use user_id = 1
-    expenses = Expense.query.filter_by(user_id=1).all()
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'image': None})
+    expenses = Expense.query.filter_by(user_id=user_id).all()
     
     if not expenses:
         return jsonify({'image': None})
@@ -603,9 +655,11 @@ def get_daily_expenses_chart():
 # Generate comparison chart for income vs expenses
 @app.route('/api/chart/income-vs-expenses', methods=['GET'])
 def get_income_vs_expenses_chart():
-    # For demo purposes, we'll use user_id = 1
-    expenses = Expense.query.filter_by(user_id=1).all()
-    incomes = Income.query.filter_by(user_id=1).all()
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'image': None})
+    expenses = Expense.query.filter_by(user_id=user_id).all()
+    incomes = Income.query.filter_by(user_id=user_id).all()
     
     if not expenses and not incomes:
         return jsonify({'image': None})
@@ -675,9 +729,13 @@ def generate_pdf_report():
     if not REPORTLAB_AVAILABLE:
         return jsonify({'error': 'PDF generation not available. reportlab library is not installed.'}), 501
     
-    # For demo purposes, we'll use user_id = 1
-    expenses = Expense.query.filter_by(user_id=1).all()
-    incomes = Income.query.filter_by(user_id=1).all()
+    # Get current user
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    expenses = Expense.query.filter_by(user_id=user_id).all()
+    incomes = Income.query.filter_by(user_id=user_id).all()
     
     # Calculate totals
     total_expenses = sum(expense.amount for expense in expenses)

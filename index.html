@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,61 +19,61 @@
             --gray: #6c757d;
             --light-gray: #e9ecef;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background-color: #f5f7fb;
             color: #333;
             line-height: 1.6;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-        
+
         header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             border-radius: 0 0 10px 10px;
         }
-        
+
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-        
+
         .logo i {
             font-size: 2rem;
         }
-        
+
         .logo h1 {
             font-size: 1.8rem;
             font-weight: 600;
         }
-        
+
         nav ul {
             display: flex;
             list-style: none;
             gap: 20px;
         }
-        
+
         nav ul li a {
             color: white;
             text-decoration: none;
@@ -81,49 +82,51 @@
             border-radius: 20px;
             transition: all 0.3s ease;
         }
-        
-        nav ul li a:hover, nav ul li a.active {
-            background: rgba(255,255,255,0.2);
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            background: rgba(255, 255, 255, 0.2);
         }
-        
+
         .auth-container {
             background: white;
             max-width: 400px;
             margin: 50px auto;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         .auth-header {
             text-align: center;
             margin-bottom: 30px;
         }
-        
+
         .auth-header h2 {
             color: var(--primary);
             margin-bottom: 10px;
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: 500;
             color: var(--dark);
         }
-        
-        input, select {
+
+        input,
+        select {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 1rem;
         }
-        
+
         button {
             background: var(--primary);
             color: white;
@@ -136,11 +139,11 @@
             transition: background 0.3s ease;
             width: 100%;
         }
-        
+
         button:hover {
             background: var(--secondary);
         }
-        
+
         .btn-primary {
             background: var(--primary);
             color: white;
@@ -153,7 +156,7 @@
             transition: background 0.3s ease;
             width: auto;
         }
-        
+
         .btn-primary:hover {
             background: var(--secondary);
         }
@@ -163,92 +166,92 @@
             margin-top: 20px;
             color: var(--gray);
         }
-        
+
         .switch-form a {
             color: var(--primary);
             text-decoration: none;
             font-weight: 500;
         }
-        
+
         .dashboard-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin: 30px 0;
         }
-        
+
         .stat-card {
             background: white;
             border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             display: flex;
             flex-direction: column;
             transition: transform 0.3s ease;
         }
-        
+
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
-        
+
         .stat-card.income {
             border-left: 4px solid var(--success);
         }
-        
+
         .stat-card.expense {
             border-left: 4px solid var(--danger);
         }
-        
+
         .stat-card.balance {
             border-left: 4px solid var(--info);
         }
-        
+
         .stat-card h3 {
             font-size: 1rem;
             color: var(--gray);
             margin-bottom: 10px;
         }
-        
+
         .stat-card .amount {
             font-size: 2rem;
             font-weight: 700;
         }
-        
+
         .stat-card.income .amount {
             color: var(--success);
         }
-        
+
         .stat-card.expense .amount {
             color: var(--danger);
         }
-        
+
         .stat-card.balance .amount {
             color: var(--info);
         }
-        
+
         .main-content {
             display: grid;
             grid-template-columns: 1fr 350px;
             gap: 30px;
             margin: 30px 0;
         }
-        
+
         .section {
             display: none;
         }
-        
+
         .section.active {
             display: block;
         }
-        
+
         .transactions-section {
             background: white;
             border-radius: 10px;
             padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
-        
+
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -257,19 +260,19 @@
             flex-wrap: wrap;
             gap: 10px;
         }
-        
+
         .section-header h2 {
             font-size: 1.5rem;
             color: var(--dark);
             margin: 0;
         }
-        
+
         .tabs {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
         }
-        
+
         .tab {
             padding: 8px 16px;
             background: var(--light-gray);
@@ -279,51 +282,51 @@
             font-weight: 500;
             transition: all 0.3s ease;
         }
-        
+
         .tab.active {
             background: var(--primary);
             color: white;
         }
-        
+
         .transaction-form {
             background: var(--light);
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 25px;
         }
-        
+
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-bottom: 15px;
         }
-        
+
         .form-group.full {
             grid-column: span 2;
         }
-        
+
         .btn-danger {
             background: var(--danger);
         }
-        
+
         .btn-danger:hover {
             background: #d1146a;
         }
-        
+
         .btn-warning {
             background: var(--warning);
         }
-        
+
         .btn-warning:hover {
             background: #e07c0c;
         }
-        
+
         .transactions-list {
             max-height: 400px;
             overflow-y: auto;
         }
-        
+
         .transaction-item {
             display: flex;
             justify-content: space-between;
@@ -331,49 +334,49 @@
             padding: 15px;
             border-bottom: 1px solid #eee;
         }
-        
+
         .transaction-item:last-child {
             border-bottom: none;
         }
-        
+
         .transaction-info {
             flex: 1;
         }
-        
+
         .transaction-title {
             font-weight: 600;
             margin-bottom: 5px;
         }
-        
+
         .transaction-category {
             font-size: 0.85rem;
             color: var(--gray);
         }
-        
+
         .transaction-amount {
             font-weight: 700;
             font-size: 1.1rem;
         }
-        
+
         .transaction-amount.income {
             color: var(--success);
         }
-        
+
         .transaction-amount.expense {
             color: var(--danger);
         }
-        
+
         .transaction-date {
             font-size: 0.8rem;
             color: var(--gray);
             margin-top: 3px;
         }
-        
+
         .transaction-actions {
             display: flex;
             gap: 10px;
         }
-        
+
         .action-btn {
             width: 36px;
             height: 36px;
@@ -383,158 +386,160 @@
             justify-content: center;
             padding: 0;
         }
-        
+
         .sidebar {
             display: flex;
             flex-direction: column;
             gap: 30px;
         }
-        
-        .recent-transactions, .categories-summary {
+
+        .recent-transactions,
+        .categories-summary {
             background: white;
             border-radius: 10px;
             padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
-        
+
         .transaction-list-small {
             margin-top: 20px;
         }
-        
+
         .transaction-small {
             display: flex;
             justify-content: space-between;
             padding: 12px 0;
             border-bottom: 1px solid #eee;
         }
-        
+
         .transaction-small:last-child {
             border-bottom: none;
         }
-        
+
         .transaction-small-info h4 {
             font-size: 0.95rem;
             margin-bottom: 3px;
         }
-        
+
         .transaction-small-info p {
             font-size: 0.8rem;
             color: var(--gray);
         }
-        
+
         .category-item {
             display: flex;
             justify-content: space-between;
             padding: 10px 0;
             border-bottom: 1px solid #eee;
         }
-        
+
         .category-item:last-child {
             border-bottom: none;
         }
-        
+
         .category-name {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
+
         .category-color {
             width: 12px;
             height: 12px;
             border-radius: 50%;
         }
-        
+
         .category-amount {
             font-weight: 600;
         }
-        
+
         .empty-state {
             text-align: center;
             padding: 40px 20px;
             color: var(--gray);
         }
-        
+
         .empty-state i {
             font-size: 3rem;
             margin-bottom: 15px;
             opacity: 0.3;
         }
-        
+
         .hidden {
             display: none;
         }
-        
+
         .page {
             display: none;
         }
-        
+
         .page.active {
             display: block;
         }
-        
+
         .user-info {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
+
         .logout-btn {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             padding: 8px 15px;
             border-radius: 20px;
         }
-        
+
         .logout-btn:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.3);
         }
-        
+
         .reports-section {
             background: white;
             border-radius: 10px;
             padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
-        
+
         .chart-container {
             margin: 30px 0;
             text-align: center;
         }
-        
+
         .chart-image {
             max-width: 100%;
             height: auto;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         @media (max-width: 992px) {
             .main-content {
                 grid-template-columns: 1fr;
             }
         }
-        
+
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
                 gap: 20px;
             }
-            
+
             nav ul {
                 flex-wrap: wrap;
                 justify-content: center;
             }
-            
+
             .form-row {
                 grid-template-columns: 1fr;
             }
-            
+
             .form-group.full {
                 grid-column: span 1;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Login Page -->
     <div id="login-page" class="page active">
@@ -559,7 +564,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Register Page -->
     <div id="register-page" class="page">
         <div class="auth-container">
@@ -587,7 +592,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Main App -->
     <div id="app" class="page">
         <header>
@@ -599,8 +604,10 @@
                     </div>
                     <nav>
                         <ul>
-                            <li><a href="#" class="active" id="dashboard-link"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-                            <li><a href="#" id="transactions-link"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+                            <li><a href="#" class="active" id="dashboard-link"><i class="fas fa-chart-line"></i>
+                                    Dashboard</a></li>
+                            <li><a href="#" id="transactions-link"><i class="fas fa-exchange-alt"></i> Transactions</a>
+                            </li>
                             <li><a href="#" id="reports-link"><i class="fas fa-chart-bar"></i> Reports</a></li>
                         </ul>
                     </nav>
@@ -611,7 +618,7 @@
                 </div>
             </div>
         </header>
-        
+
         <div class="container">
             <!-- Dashboard Section -->
             <div id="dashboard-section" class="section active">
@@ -629,13 +636,13 @@
                         <div class="amount" id="balance">$0.00</div>
                     </div>
                 </div>
-                
+
                 <div class="main-content">
                     <div class="transactions-section">
                         <div class="section-header">
                             <h2>Recent Transactions</h2>
                         </div>
-                        
+
                         <div class="transactions-list" id="recent-transactions-dashboard">
                             <div class="empty-state">
                                 <i class="fas fa-exchange-alt"></i>
@@ -643,7 +650,7 @@
                                 <p>Add your first transaction to get started</p>
                             </div>
                         </div>
-                        
+
                         <div class="categories-summary">
                             <div class="section-header">
                                 <h2>Income by Source</h2>
@@ -654,7 +661,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="sidebar">
                         <div class="recent-transactions">
                             <div class="section-header">
@@ -666,7 +673,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="recent-transactions">
                             <div class="section-header">
                                 <h2>Expense Transactions</h2>
@@ -677,7 +684,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="categories-summary">
                             <div class="section-header">
                                 <h2>Expenses by Category</h2>
@@ -691,19 +698,19 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Transactions Section -->
             <div id="transactions-section" class="section">
                 <div class="transactions-section">
                     <div class="section-header">
                         <h2>Transactions</h2>
                     </div>
-                    
+
                     <div class="tabs">
                         <button class="tab active" data-tab="expense">Expense</button>
                         <button class="tab" data-tab="income">Income</button>
                     </div>
-                    
+
                     <form class="transaction-form" id="transaction-form">
                         <div class="form-row">
                             <div class="form-group">
@@ -715,15 +722,15 @@
                                 <input type="date" id="date" required>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="description">Description</label>
                             <input type="text" id="description" required>
                         </div>
-                        
+
                         <div class="form-group expense-fields">
                             <label for="category">Category</label>
-                            <select id="category" required>
+                            <select id="category">
                                 <option value="">Select a category</option>
                                 <option value="Food">Food</option>
                                 <option value="Rent">Rent</option>
@@ -738,10 +745,10 @@
                                 <option value="Other">Other</option>
                             </select>
                         </div>
-                        
+
                         <button type="submit">Add Transaction</button>
                     </form>
-                    
+
                     <div class="transactions-list" id="transactions-list">
                         <div class="empty-state">
                             <i class="fas fa-exchange-alt"></i>
@@ -751,7 +758,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Reports Section -->
             <div id="reports-section" class="section">
                 <div class="reports-section">
@@ -761,25 +768,27 @@
                             <i class="fas fa-download"></i> Download PDF Report
                         </button>
                     </div>
-                    
+
                     <div class="main-content">
                         <div class="transactions-section">
                             <div class="section-header">
                                 <h2>Expenses by Category</h2>
                             </div>
                             <div class="chart-container">
-                                <img id="expense-categories-report-chart" class="chart-image" src="" alt="Expenses by Category Chart">
+                                <img id="expense-categories-report-chart" class="chart-image" src=""
+                                    alt="Expenses by Category Chart">
                                 <p id="no-expense-categories-report-chart">No expense data available for chart</p>
                             </div>
                         </div>
-                        
+
                         <div class="sidebar">
                             <div class="categories-summary">
                                 <div class="section-header">
                                     <h2>Income by Source</h2>
                                 </div>
                                 <div class="chart-container">
-                                    <img id="income-sources-report-chart" class="chart-image" src="" alt="Income by Source Chart">
+                                    <img id="income-sources-report-chart" class="chart-image" src=""
+                                        alt="Income by Source Chart">
                                     <p id="no-income-sources-report-chart">No income data available for chart</p>
                                 </div>
                             </div>
@@ -795,7 +804,7 @@
         let currentTab = 'expense';
         let editingId = null;
         let currentUser = null;
-        
+
         // DOM Elements
         const loginPage = document.getElementById('login-page');
         const registerPage = document.getElementById('register-page');
@@ -806,39 +815,39 @@
         const showLoginLink = document.getElementById('show-login');
         const logoutBtn = document.getElementById('logout-btn');
         const currentUserSpan = document.getElementById('current-user');
-        
+
         // Navigation
         const dashboardLink = document.getElementById('dashboard-link');
         const transactionsLink = document.getElementById('transactions-link');
         const reportsLink = document.getElementById('reports-link');
-        
+
         // Set today's date as default
         document.getElementById('date').valueAsDate = new Date();
-        
+
         // Page Navigation
         showRegisterLink.addEventListener('click', (e) => {
             e.preventDefault();
             loginPage.classList.remove('active');
             registerPage.classList.add('active');
         });
-        
+
         showLoginLink.addEventListener('click', (e) => {
             e.preventDefault();
             registerPage.classList.remove('active');
             loginPage.classList.add('active');
         });
-        
+
         // Show different sections
         function showSection(sectionId) {
             // Hide all sections
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
             });
-            
+
             // Show requested section
             document.getElementById(sectionId).classList.add('active');
         }
-        
+
         // Navigation event listeners
         dashboardLink.addEventListener('click', (e) => {
             e.preventDefault();
@@ -846,7 +855,7 @@
             dashboardLink.classList.add('active');
             showSection('dashboard-section');
         });
-        
+
         transactionsLink.addEventListener('click', (e) => {
             e.preventDefault();
             document.querySelectorAll('nav ul li a').forEach(link => link.classList.remove('active'));
@@ -854,9 +863,9 @@
             showSection('transactions-section');
             loadTransactions(); // Load transactions when switching to this section
         });
-        
 
-        
+
+
         reportsLink.addEventListener('click', (e) => {
             e.preventDefault();
             document.querySelectorAll('nav ul li a').forEach(link => link.classList.remove('active'));
@@ -865,33 +874,33 @@
             loadIncomeSourcesReportChart();
             loadExpenseCategoriesReportChart();
         });
-        
+
         // Tab switching
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
                 currentTab = tab.dataset.tab;
-                
+
                 // Show/hide category field based on tab
-                document.querySelector('.expense-fields').style.display = 
+                document.querySelector('.expense-fields').style.display =
                     currentTab === 'expense' ? 'block' : 'none';
-                
+
                 // Update form submit button text
-                document.querySelector('#transaction-form button').textContent = 
+                document.querySelector('#transaction-form button').textContent =
                     `Add ${currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}`;
-                
+
                 loadTransactions();
             });
         });
-        
+
         // Login Form
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const username = document.getElementById('login-username').value;
             const password = document.getElementById('login-password').value;
-            
+
             try {
                 const response = await fetch(`${API_BASE_URL}/auth/login`, {
                     method: 'POST',
@@ -900,11 +909,12 @@
                     },
                     body: JSON.stringify({ username, password })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (response.ok) {
                     currentUser = data.user;
+                    localStorage.setItem('user', JSON.stringify(currentUser));
                     currentUserSpan.textContent = currentUser.username;
                     loginPage.classList.remove('active');
                     app.classList.add('active');
@@ -917,15 +927,15 @@
                 alert('Network error. Please try again.');
             }
         });
-        
+
         // Register Form
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const username = document.getElementById('register-username').value;
             const email = document.getElementById('register-email').value;
             const password = document.getElementById('register-password').value;
-            
+
             try {
                 const response = await fetch(`${API_BASE_URL}/auth/register`, {
                     method: 'POST',
@@ -934,9 +944,9 @@
                     },
                     body: JSON.stringify({ username, email, password })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (response.ok) {
                     alert('Registration successful! Please login.');
                     registerPage.classList.remove('active');
@@ -949,65 +959,70 @@
                 alert('Network error. Please try again.');
             }
         });
-        
+
         // Logout
         logoutBtn.addEventListener('click', () => {
             currentUser = null;
+            localStorage.removeItem('user');
             app.classList.remove('active');
             loginPage.classList.add('active');
         });
-        
+
         // Form submission
         document.getElementById('transaction-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const amount = document.getElementById('amount').value;
             const description = document.getElementById('description').value;
             const date = document.getElementById('date').value;
             const category = document.getElementById('category').value;
-            
+
             if (!amount || !description || !date || (currentTab === 'expense' && !category)) {
                 alert('Please fill in all required fields');
                 return;
             }
-            
+
             const transactionData = {
                 amount: parseFloat(amount),
                 description: description,
                 date: date
             };
-            
+
             if (currentTab === 'expense') {
                 transactionData.category = category;
             }
-            
+
             try {
                 let response;
                 if (editingId) {
                     // Update existing transaction
-                    response = await fetch(`${API_BASE_URL}/${currentTab}s/${editingId}`, {
+                    const endpoint = currentTab === 'expense' ? 'expenses' : 'income';
+                    response = await fetch(`${API_BASE_URL}/${endpoint}/${editingId}`, {
                         method: 'PUT',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'User-Id': currentUser ? currentUser.id : ''
                         },
                         body: JSON.stringify(transactionData)
                     });
                 } else {
                     // Add new transaction
-                    response = await fetch(`${API_BASE_URL}/${currentTab}s`, {
+                    const endpoint = currentTab === 'expense' ? 'expenses' : 'income';
+                    response = await fetch(`${API_BASE_URL}/${endpoint}`, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'User-Id': currentUser ? currentUser.id.toString() : ''
                         },
                         body: JSON.stringify(transactionData)
                     });
                 }
-                
+
                 if (response.ok) {
                     document.getElementById('transaction-form').reset();
                     document.getElementById('date').valueAsDate = new Date();
                     editingId = null;
-                    document.querySelector('#transaction-form button').textContent = 
+                    document.querySelector('#transaction-form button').textContent =
                         `Add ${currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}`;
                     loadDashboardData();
                     loadTransactions();
@@ -1020,17 +1035,19 @@
                 alert('Network error. Please try again.');
             }
         });
-        
+
         // Load dashboard data
         async function loadDashboardData() {
             try {
-                const response = await fetch(`${API_BASE_URL}/dashboard`);
+                if (!currentUser) return;
+                const headers = { 'User-Id': currentUser.id };
+                const response = await fetch(`${API_BASE_URL}/dashboard`, { headers });
                 const data = await response.json();
-                
+
                 document.getElementById('total-income').textContent = `$${data.totalIncome.toFixed(2)}`;
                 document.getElementById('total-expenses').textContent = `$${data.totalExpenses.toFixed(2)}`;
                 document.getElementById('balance').textContent = `$${data.balance.toFixed(2)}`;
-                
+
                 // Update recent transactions on dashboard (mixed)
                 const recentDashboardContainer = document.getElementById('recent-transactions-dashboard');
                 if (data.recentTransactions.length > 0) {
@@ -1055,13 +1072,13 @@
                         </div>
                     `;
                 }
-                
+
                 // Get all income and expense transactions separately
-                const incomeResponse = await fetch(`${API_BASE_URL}/income`);
-                const expenseResponse = await fetch(`${API_BASE_URL}/expenses`);
+                const incomeResponse = await fetch(`${API_BASE_URL}/income`, { headers });
+                const expenseResponse = await fetch(`${API_BASE_URL}/expenses`, { headers });
                 const allIncome = await incomeResponse.json();
                 const allExpenses = await expenseResponse.json();
-                
+
                 // Update income transactions in dashboard
                 const incomeContainer = document.getElementById('income-transactions-dashboard');
                 if (allIncome.length > 0) {
@@ -1085,7 +1102,7 @@
                         </div>
                     `;
                 }
-                
+
                 // Update expense transactions in dashboard
                 const expenseContainer = document.getElementById('expense-transactions-dashboard');
                 if (allExpenses.length > 0) {
@@ -1109,7 +1126,7 @@
                         </div>
                     `;
                 }
-                
+
                 // Update categories summary
                 const categoriesContainer = document.getElementById('categories-summary');
                 const categories = Object.entries(data.categoryTotals);
@@ -1117,7 +1134,7 @@
                     categoriesContainer.innerHTML = categories.map(([category, amount], index) => {
                         const colors = ['#4361ee', '#3a0ca3', '#4cc9f0', '#f72585', '#7209b7', '#4895ef', '#4cc9f0'];
                         const color = colors[index % colors.length];
-                        
+
                         return `
                             <div class="category-item">
                                 <div class="category-name">
@@ -1135,7 +1152,7 @@
                         </div>
                     `;
                 }
-                
+
                 // Load income sources chart
                 loadIncomeSourcesChart();
                 // Load daily expenses chart
@@ -1144,16 +1161,18 @@
                 console.error('Error loading dashboard data:', error);
             }
         }
-        
+
         // Load income sources chart
         async function loadIncomeSourcesChart() {
             try {
-                const response = await fetch(`${API_BASE_URL}/chart/income-sources`);
+                if (!currentUser) return;
+                const headers = { 'User-Id': currentUser.id };
+                const response = await fetch(`${API_BASE_URL}/chart/income-sources`, { headers });
                 const data = await response.json();
-                
+
                 const chartImage = document.getElementById('income-sources-chart');
                 const noChartMessage = document.getElementById('no-income-sources-chart');
-                
+
                 if (data.image) {
                     chartImage.src = `data:image/png;base64,${data.image}`;
                     chartImage.style.display = 'block';
@@ -1168,16 +1187,18 @@
                 document.getElementById('no-income-sources-chart').style.display = 'block';
             }
         }
-        
+
         // Load daily expenses chart
         async function loadDailyExpensesChart() {
             try {
-                const response = await fetch(`${API_BASE_URL}/chart/daily-expenses`);
+                if (!currentUser) return;
+                const headers = { 'User-Id': currentUser.id };
+                const response = await fetch(`${API_BASE_URL}/chart/daily-expenses`, { headers });
                 const data = await response.json();
-                
+
                 const chartImage = document.getElementById('daily-expenses-chart');
                 const noChartMessage = document.getElementById('no-daily-expenses-chart');
-                
+
                 if (data.image) {
                     chartImage.src = `data:image/png;base64,${data.image}`;
                     chartImage.style.display = 'block';
@@ -1192,16 +1213,18 @@
                 document.getElementById('no-daily-expenses-chart').style.display = 'block';
             }
         }
-        
+
         // Load income sources report chart
         async function loadIncomeSourcesReportChart() {
             try {
-                const response = await fetch(`${API_BASE_URL}/chart/income-sources`);
+                if (!currentUser) return;
+                const headers = { 'User-Id': currentUser.id };
+                const response = await fetch(`${API_BASE_URL}/chart/income-sources`, { headers });
                 const data = await response.json();
-                
+
                 const chartImage = document.getElementById('income-sources-report-chart');
                 const noChartMessage = document.getElementById('no-income-sources-report-chart');
-                
+
                 if (data.image) {
                     chartImage.src = `data:image/png;base64,${data.image}`;
                     chartImage.style.display = 'block';
@@ -1216,16 +1239,18 @@
                 document.getElementById('no-income-sources-report-chart').style.display = 'block';
             }
         }
-        
+
         // Load expense categories report chart
         async function loadExpenseCategoriesReportChart() {
             try {
-                const response = await fetch(`${API_BASE_URL}/chart/expense-categories`);
+                if (!currentUser) return;
+                const headers = { 'User-Id': currentUser.id };
+                const response = await fetch(`${API_BASE_URL}/chart/expense-categories`, { headers });
                 const data = await response.json();
-                
+
                 const chartImage = document.getElementById('expense-categories-report-chart');
                 const noChartMessage = document.getElementById('no-expense-categories-report-chart');
-                
+
                 if (data.image) {
                     chartImage.src = `data:image/png;base64,${data.image}`;
                     chartImage.style.display = 'block';
@@ -1240,13 +1265,16 @@
                 document.getElementById('no-expense-categories-report-chart').style.display = 'block';
             }
         }
-        
+
         // Load transactions
         async function loadTransactions() {
             try {
-                const response = await fetch(`${API_BASE_URL}/${currentTab}s`);
+                if (!currentUser) return;
+                const headers = { 'User-Id': currentUser.id };
+                const endpoint = currentTab === 'expense' ? 'expenses' : 'income';
+                const response = await fetch(`${API_BASE_URL}/${endpoint}`, { headers });
                 const transactions = await response.json();
-                
+
                 const transactionsList = document.getElementById('transactions-list');
                 if (transactions.length > 0) {
                     transactionsList.innerHTML = transactions.map(transaction => `
@@ -1283,16 +1311,17 @@
                 document.getElementById('transactions-list').innerHTML = '<p>Error loading transactions. Please try again.</p>';
             }
         }
-        
+
         // Load expense chart
         async function loadExpenseChart() {
             try {
-                const response = await fetch(`${API_BASE_URL}/chart/expense-categories`);
+                const headers = { 'User-Id': currentUser ? currentUser.id : '' };
+                const response = await fetch(`${API_BASE_URL}/chart/expense-categories`, { headers });
                 const data = await response.json();
-                
+
                 const chartImage = document.getElementById('expense-chart');
                 const noChartMessage = document.getElementById('no-chart-message');
-                
+
                 if (data.image) {
                     chartImage.src = `data:image/png;base64,${data.image}`;
                     chartImage.style.display = 'block';
@@ -1307,16 +1336,17 @@
                 document.getElementById('no-chart-message').style.display = 'block';
             }
         }
-        
+
         // Load income by month chart
         async function loadIncomeByMonthChart() {
             try {
-                const response = await fetch(`${API_BASE_URL}/chart/income-by-month`);
+                const headers = { 'User-Id': currentUser ? currentUser.id : '' };
+                const response = await fetch(`${API_BASE_URL}/chart/income-by-month`, { headers });
                 const data = await response.json();
-                
+
                 const chartImage = document.getElementById('income-monthly-chart');
                 const noChartMessage = document.getElementById('no-income-chart-message');
-                
+
                 if (data.image) {
                     chartImage.src = `data:image/png;base64,${data.image}`;
                     chartImage.style.display = 'block';
@@ -1331,16 +1361,17 @@
                 document.getElementById('no-income-chart-message').style.display = 'block';
             }
         }
-        
+
         // Load expense trends chart
         async function loadExpenseTrendsChart() {
             try {
-                const response = await fetch(`${API_BASE_URL}/chart/expense-trends`);
+                const headers = { 'User-Id': currentUser ? currentUser.id : '' };
+                const response = await fetch(`${API_BASE_URL}/chart/expense-trends`, { headers });
                 const data = await response.json();
-                
+
                 const chartImage = document.getElementById('expense-trends-chart');
                 const noChartMessage = document.getElementById('no-trends-chart-message');
-                
+
                 if (data.image) {
                     chartImage.src = `data:image/png;base64,${data.image}`;
                     chartImage.style.display = 'block';
@@ -1355,16 +1386,17 @@
                 document.getElementById('no-trends-chart-message').style.display = 'block';
             }
         }
-        
+
         // Load income vs expenses comparison chart
         async function loadIncomeVsExpensesChart() {
             try {
-                const response = await fetch(`${API_BASE_URL}/chart/income-vs-expenses`);
+                const headers = { 'User-Id': currentUser ? currentUser.id : '' };
+                const response = await fetch(`${API_BASE_URL}/chart/income-vs-expenses`, { headers });
                 const data = await response.json();
-                
+
                 const chartImage = document.getElementById('comparison-chart');
                 const noChartMessage = document.getElementById('no-comparison-chart-message');
-                
+
                 if (data.image) {
                     chartImage.src = `data:image/png;base64,${data.image}`;
                     chartImage.style.display = 'block';
@@ -1379,24 +1411,27 @@
                 document.getElementById('no-comparison-chart-message').style.display = 'block';
             }
         }
-        
+
         // Edit transaction
         async function editTransaction(id) {
             try {
-                const response = await fetch(`${API_BASE_URL}/${currentTab}s/${id}`);
+                if (!currentUser) return;
+                const headers = { 'User-Id': currentUser.id };
+                const endpoint = currentTab === 'expense' ? 'expenses' : 'income';
+                const response = await fetch(`${API_BASE_URL}/${endpoint}/${id}`, { headers });
                 const transaction = await response.json();
-                
+
                 document.getElementById('amount').value = transaction.amount;
                 document.getElementById('description').value = transaction.description;
                 document.getElementById('date').value = transaction.date.split('T')[0];
-                
+
                 if (currentTab === 'expense') {
                     document.getElementById('category').value = transaction.category;
                 }
-                
+
                 editingId = id;
                 document.querySelector('#transaction-form button').textContent = `Update ${currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}`;
-                
+
                 // Scroll to form
                 document.querySelector('.transaction-form').scrollIntoView({ behavior: 'smooth' });
             } catch (error) {
@@ -1404,18 +1439,22 @@
                 alert('Error loading transaction data');
             }
         }
-        
+
         // Delete transaction
         async function deleteTransaction(id) {
             if (!confirm(`Are you sure you want to delete this ${currentTab}?`)) {
                 return;
             }
-            
+
             try {
-                const response = await fetch(`${API_BASE_URL}/${currentTab}s/${id}`, {
-                    method: 'DELETE'
+                const endpoint = currentTab === 'expense' ? 'expenses' : 'income';
+                const response = await fetch(`${API_BASE_URL}/${endpoint}/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'User-Id': currentUser ? currentUser.id : ''
+                    }
                 });
-                
+
                 if (response.ok) {
                     loadDashboardData();
                     loadTransactions();
@@ -1427,11 +1466,16 @@
                 alert('Network error. Please try again.');
             }
         }
-        
+
         // Download PDF report
         async function downloadPDFReport() {
             try {
-                const response = await fetch(`${API_BASE_URL}/report/pdf`);
+                if (!currentUser) {
+                    alert('Please login first');
+                    return;
+                }
+                const headers = { 'User-Id': currentUser.id };
+                const response = await fetch(`${API_BASE_URL}/report/pdf`, { headers });
                 if (response.status === 501) {
                     const data = await response.json();
                     alert('PDF generation is not available: ' + data.error);
@@ -1454,9 +1498,24 @@
                 alert('Network error. Please try again.');
             }
         }
-        
-        // Initialize with a demo user for testing
+
+        // Initialize
         window.addEventListener('DOMContentLoaded', () => {
+            // Check for saved session
+            const savedUser = localStorage.getItem('user');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    currentUserSpan.textContent = currentUser.username;
+                    loginPage.classList.remove('active');
+                    app.classList.add('active');
+                    loadDashboardData();
+                } catch (e) {
+                    console.error('Error parsing saved user:', e);
+                    localStorage.removeItem('user');
+                }
+            }
+
             // For demo purposes, create a default user
             fetch(`${API_BASE_URL}/auth/register`, {
                 method: 'POST',
@@ -1476,4 +1535,5 @@
         });
     </script>
 </body>
+
 </html>

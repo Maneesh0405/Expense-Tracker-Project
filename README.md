@@ -1,4 +1,4 @@
-# Python Expense Tracker
+# Expense Tracker
 
 A simple expense tracking application built with Python (Flask) and SQLite. This is a Python implementation of a typical MERN stack expense tracker.
 
