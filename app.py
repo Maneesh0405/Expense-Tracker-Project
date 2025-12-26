@@ -21,7 +21,7 @@ try:
     REPORTLAB_AVAILABLE = True
 except ImportError:
     REPORTLAB_AVAILABLE = False
-    print("Warning: reportlab not available. PDF generation will be disabled.")
+    # reportlab is optional; PDF endpoints will return 501 if unavailable
 
 app = Flask(__name__, static_folder='.')
 CORS(app)
