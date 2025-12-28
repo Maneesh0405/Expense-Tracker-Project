@@ -28,6 +28,13 @@ let currentTab = 'expense';
 let editingId = null;
 let currentUser = null;
 
+// Prevent simultaneous chart loading requests (debouncing)
+let chartLoadInProgress = {
+    'income-sources': false,
+    'daily-expenses': false,
+    'expense-categories': false
+};
+
 // DOM Elements
 const loginPage = document.getElementById('login-page');
 const registerPage = document.getElementById('register-page');
@@ -388,6 +395,10 @@ async function loadDashboardData() {
 // Load income sources chart
 async function loadIncomeSourcesChart() {
     try {
+        // Skip if already loading
+        if (chartLoadInProgress['income-sources']) return;
+        chartLoadInProgress['income-sources'] = true;
+        
         if (!currentUser) return;
         const headers = { 'User-Id': currentUser.id };
         const response = await fetch(`${API_BASE_URL}/chart/income-sources`, { headers });
@@ -396,24 +407,32 @@ async function loadIncomeSourcesChart() {
         const chartImage = document.getElementById('income-sources-chart');
         const noChartMessage = document.getElementById('no-income-sources-chart');
 
-        if (data.image) {
+        if (data.image && chartImage) {
             chartImage.src = `data:image/png;base64,${data.image}`;
             chartImage.style.display = 'block';
-            noChartMessage.style.display = 'none';
+            if (noChartMessage) noChartMessage.style.display = 'none';
         } else {
-            chartImage.style.display = 'none';
-            noChartMessage.style.display = 'block';
+            if (chartImage) chartImage.style.display = 'none';
+            if (noChartMessage) noChartMessage.style.display = 'block';
         }
     } catch (error) {
         console.error('Error loading income sources chart:', error);
-        document.getElementById('income-sources-chart').style.display = 'none';
-        document.getElementById('no-income-sources-chart').style.display = 'block';
+        const img = document.getElementById('income-sources-chart');
+        const msg = document.getElementById('no-income-sources-chart');
+        if (img) img.style.display = 'none';
+        if (msg) msg.style.display = 'block';
+    } finally {
+        chartLoadInProgress['income-sources'] = false;
     }
 }
 
 // Load daily expenses chart
 async function loadDailyExpensesChart() {
     try {
+        // Skip if already loading
+        if (chartLoadInProgress['daily-expenses']) return;
+        chartLoadInProgress['daily-expenses'] = true;
+        
         if (!currentUser) return;
         const headers = { 'User-Id': currentUser.id };
         const response = await fetch(`${API_BASE_URL}/chart/daily-expenses`, { headers });
@@ -422,18 +441,22 @@ async function loadDailyExpensesChart() {
         const chartImage = document.getElementById('daily-expenses-chart');
         const noChartMessage = document.getElementById('no-daily-expenses-chart');
 
-        if (data.image) {
+        if (data.image && chartImage) {
             chartImage.src = `data:image/png;base64,${data.image}`;
             chartImage.style.display = 'block';
-            noChartMessage.style.display = 'none';
+            if (noChartMessage) noChartMessage.style.display = 'none';
         } else {
-            chartImage.style.display = 'none';
-            noChartMessage.style.display = 'block';
+            if (chartImage) chartImage.style.display = 'none';
+            if (noChartMessage) noChartMessage.style.display = 'block';
         }
     } catch (error) {
         console.error('Error loading daily expenses chart:', error);
-        document.getElementById('daily-expenses-chart').style.display = 'none';
-        document.getElementById('no-daily-expenses-chart').style.display = 'block';
+        const img = document.getElementById('daily-expenses-chart');
+        const msg = document.getElementById('no-daily-expenses-chart');
+        if (img) img.style.display = 'none';
+        if (msg) msg.style.display = 'block';
+    } finally {
+        chartLoadInProgress['daily-expenses'] = false;
     }
 }
 
@@ -466,6 +489,10 @@ async function loadIncomeSourcesReportChart() {
 // Load expense categories report chart
 async function loadExpenseCategoriesReportChart() {
     try {
+        // Skip if already loading
+        if (chartLoadInProgress['expense-categories']) return;
+        chartLoadInProgress['expense-categories'] = true;
+        
         if (!currentUser) return;
         const headers = { 'User-Id': currentUser.id };
         const response = await fetch(`${API_BASE_URL}/chart/expense-categories`, { headers });
@@ -474,18 +501,22 @@ async function loadExpenseCategoriesReportChart() {
         const chartImage = document.getElementById('expense-categories-report-chart');
         const noChartMessage = document.getElementById('no-expense-categories-report-chart');
 
-        if (data.image) {
+        if (data.image && chartImage) {
             chartImage.src = `data:image/png;base64,${data.image}`;
             chartImage.style.display = 'block';
-            noChartMessage.style.display = 'none';
+            if (noChartMessage) noChartMessage.style.display = 'none';
         } else {
-            chartImage.style.display = 'none';
-            noChartMessage.style.display = 'block';
+            if (chartImage) chartImage.style.display = 'none';
+            if (noChartMessage) noChartMessage.style.display = 'block';
         }
     } catch (error) {
         console.error('Error loading expense categories report chart:', error);
-        document.getElementById('expense-categories-report-chart').style.display = 'none';
-        document.getElementById('no-expense-categories-report-chart').style.display = 'block';
+        const img = document.getElementById('expense-categories-report-chart');
+        const msg = document.getElementById('no-expense-categories-report-chart');
+        if (img) img.style.display = 'none';
+        if (msg) msg.style.display = 'block';
+    } finally {
+        chartLoadInProgress['expense-categories'] = false;
     }
 }
 
