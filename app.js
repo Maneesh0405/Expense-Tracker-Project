@@ -19,6 +19,11 @@ const API_BASE_URL = (function() {
     return `${window.location.origin}/api`;
 })();
 
+// In production silence console.error to reduce noisy client logs
+if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    try { console.error = function() {}; } catch (e) {}
+}
+
 let currentTab = 'expense';
 let editingId = null;
 let currentUser = null;
