@@ -697,11 +697,17 @@ async function downloadPDFReport() {
             alert('Please login first');
             return;
         }
-        const headers = { 'User-Id': currentUser.id };
+        const headers = { 'User-Id': currentUser.id.toString() };
         const response = await fetch(`${API_BASE_URL}/report/pdf`, { headers });
+        
         if (response.status === 501) {
             const data = await response.json();
             alert('PDF generation is not available: ' + data.error);
+        } else if (response.status === 401) {
+            alert('Unauthorized: Please login first');
+        } else if (response.status === 500) {
+            const data = await response.json();
+            alert('Server error: ' + data.error);
         } else if (response.ok) {
             // Create a blob URL for the PDF and trigger download
             const blob = await response.blob();
@@ -714,7 +720,7 @@ async function downloadPDFReport() {
             window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
         } else {
-            alert('Error generating PDF report');
+            alert('Error generating PDF report. Status: ' + response.status);
         }
     } catch (error) {
         console.error('Error downloading PDF:', error);

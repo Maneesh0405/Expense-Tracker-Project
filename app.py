@@ -745,104 +745,108 @@ def generate_pdf_report():
     # Get current user
     user_id = get_current_user_id()
     if not user_id:
-        return jsonify({'error': 'Unauthorized'}), 401
+        return jsonify({'error': 'Unauthorized - User ID not found'}), 401
     
-    expenses = Expense.query.filter_by(user_id=user_id).all()
-    incomes = Income.query.filter_by(user_id=user_id).all()
-    
-    # Calculate totals
-    total_expenses = sum(expense.amount for expense in expenses)
-    total_income = sum(income.amount for income in incomes)
-    balance = total_income - total_expenses
-    
-    # Create PDF in memory
-    buffer = io.BytesIO()
-    c = canvas.Canvas(buffer, pagesize=letter)
-    width, height = letter
-    
-    # Title
-    c.setFont("Helvetica-Bold", 20)
-    c.drawString(50, height - 50, "Expense Tracker Report")
-    
-    # Date
-    c.setFont("Helvetica", 12)
-    c.drawString(50, height - 70, f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    
-    # Summary
-    c.setFont("Helvetica-Bold", 16)
-    c.drawString(50, height - 100, "Financial Summary")
-    
-    c.setFont("Helvetica", 12)
-    c.drawString(70, height - 120, f"Total Income: ${total_income:.2f}")
-    c.drawString(70, height - 140, f"Total Expenses: ${total_expenses:.2f}")
-    c.drawString(70, height - 160, f"Balance: ${balance:.2f}")
-    
-    # Income table
-    if incomes:
+    try:
+        expenses = Expense.query.filter_by(user_id=user_id).all()
+        incomes = Income.query.filter_by(user_id=user_id).all()
+        
+        # Calculate totals
+        total_expenses = sum(expense.amount for expense in expenses)
+        total_income = sum(income.amount for income in incomes)
+        balance = total_income - total_expenses
+        
+        # Create PDF in memory
+        buffer = io.BytesIO()
+        c = canvas.Canvas(buffer, pagesize=letter)
+        width, height = letter
+        
+        # Title
+        c.setFont("Helvetica-Bold", 20)
+        c.drawString(50, height - 50, "Expense Tracker Report")
+        
+        # Date
+        c.setFont("Helvetica", 12)
+        c.drawString(50, height - 70, f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        
+        # Summary
         c.setFont("Helvetica-Bold", 16)
-        c.drawString(50, height - 200, "Income Records")
+        c.drawString(50, height - 100, "Financial Summary")
         
-        # Table data
-        income_data = [["Date", "Description", "Amount"]]
-        for income in incomes:
-            income_data.append([
-                income.date.strftime('%Y-%m-%d'),
-                income.description,
-                f"${income.amount:.2f}"
-            ])
+        c.setFont("Helvetica", 12)
+        c.drawString(70, height - 120, f"Total Income: ${total_income:.2f}")
+        c.drawString(70, height - 140, f"Total Expenses: ${total_expenses:.2f}")
+        c.drawString(70, height - 160, f"Balance: ${balance:.2f}")
         
-        # Create table
-        income_table = Table(income_data)
-        income_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('FONTSIZE', (0, 0), (-1, 0), 14),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black)
-        ]))
+        # Income table
+        if incomes:
+            c.setFont("Helvetica-Bold", 16)
+            c.drawString(50, height - 200, "Income Records")
+            
+            # Table data
+            income_data = [["Date", "Description", "Amount"]]
+            for income in incomes:
+                income_data.append([
+                    income.date.strftime('%Y-%m-%d'),
+                    income.description,
+                    f"${income.amount:.2f}"
+                ])
+            
+            # Create table
+            income_table = Table(income_data)
+            income_table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, 0), 14),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black)
+            ]))
+            
+            income_table.wrapOn(c, width, height)
+            income_table.drawOn(c, 50, height - 200 - len(income_data) * 20 - 50)
         
-        income_table.wrapOn(c, width, height)
-        income_table.drawOn(c, 50, height - 200 - len(income_data) * 20 - 50)
+        # Expense table
+        if expenses:
+            expense_start_y = height - 200 - len(incomes) * 20 - 100 if incomes else height - 200
+            c.setFont("Helvetica-Bold", 16)
+            c.drawString(50, expense_start_y, "Expense Records")
+            
+            # Table data
+            expense_data = [["Date", "Description", "Category", "Amount"]]
+            for expense in expenses:
+                expense_data.append([
+                    expense.date.strftime('%Y-%m-%d'),
+                    expense.description,
+                    expense.category,
+                    f"${expense.amount:.2f}"
+                ])
+            
+            # Create table
+            expense_table = Table(expense_data)
+            expense_table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, 0), 14),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black)
+            ]))
+            
+            expense_table.wrapOn(c, width, height)
+            expense_table.drawOn(c, 50, expense_start_y - len(expense_data) * 20 - 50)
+        
+        c.save()
+        
+        buffer.seek(0)
+        return send_file(buffer, as_attachment=True, download_name='expense_report.pdf', mimetype='application/pdf')
     
-    # Expense table
-    if expenses:
-        expense_start_y = height - 200 - len(incomes) * 20 - 100 if incomes else height - 200
-        c.setFont("Helvetica-Bold", 16)
-        c.drawString(50, expense_start_y, "Expense Records")
-        
-        # Table data
-        expense_data = [["Date", "Description", "Category", "Amount"]]
-        for expense in expenses:
-            expense_data.append([
-                expense.date.strftime('%Y-%m-%d'),
-                expense.description,
-                expense.category,
-                f"${expense.amount:.2f}"
-            ])
-        
-        # Create table
-        expense_table = Table(expense_data)
-        expense_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('FONTSIZE', (0, 0), (-1, 0), 14),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black)
-        ]))
-        
-        expense_table.wrapOn(c, width, height)
-        expense_table.drawOn(c, 50, expense_start_y - len(expense_data) * 20 - 50)
-    
-    c.save()
-    
-    buffer.seek(0)
-    return send_file(buffer, as_attachment=True, download_name='expense_report.pdf', mimetype='application/pdf')
+    except Exception as e:
+        return jsonify({'error': f'Error generating PDF: {str(e)}'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
