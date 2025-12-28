@@ -1,5 +1,23 @@
-// Determine API URL based on environment
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+// Determine API URL based on environment (safe for plain browser runtime)
+const API_BASE_URL = (function() {
+    // Allow an explicit global to be set (useful when injecting at deploy time)
+    if (window.__API_BASE__) return window.__API_BASE__;
+
+    // Local development default
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        return 'http://localhost:5000/api';
+    }
+
+    // If the app was built with an env-replacer that defines process.env, use it safely
+    try {
+        if (typeof process !== 'undefined' && process.env && process.env.REACT_APP_API_URL) {
+            return process.env.REACT_APP_API_URL;
+        }
+    } catch (e) {}
+
+    // Default to same origin + /api for production static hosting
+    return `${window.location.origin}/api`;
+})();
 
 let currentTab = 'expense';
 let editingId = null;
