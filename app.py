@@ -424,26 +424,27 @@ def get_expense_categories_chart():
     # Define colors for each category
     colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9']
     
-    # Clear any previous figures to prevent memory issues
-    plt.close('all')
-    
-    plt.figure(figsize=(10, 8))
-    plt.pie(amounts, labels=categories, autopct='%1.1f%%', colors=colors[:len(categories)], startangle=90)
-    plt.title('Expenses by Category', fontsize=16, pad=20)
-    plt.axis('equal')
-    
-    # Save plot to a PNG image in memory
-    img_buffer = io.BytesIO()
-    plt.savefig(img_buffer, format='png', bbox_inches='tight')
-    img_buffer.seek(0)
-    
-    # Encode the image in base64
-    img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
-    
-    # Close the figure to free memory
-    plt.close()
-    
-    return jsonify({'image': img_base64})
+    try:
+        # Clear any previous figures to prevent memory issues
+        plt.close('all')
+        
+        fig = plt.figure(figsize=(10, 8))
+        plt.pie(amounts, labels=categories, autopct='%1.1f%%', colors=colors[:len(categories)], startangle=90)
+        plt.title('Expenses by Category', fontsize=16, pad=20)
+        plt.axis('equal')
+        
+        # Save plot to a PNG image in memory
+        img_buffer = io.BytesIO()
+        fig.savefig(img_buffer, format='png', bbox_inches='tight')
+        img_buffer.seek(0)
+        
+        # Encode the image in base64
+        img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
+        
+        return jsonify({'image': img_base64})
+    finally:
+        # Ensure all figures are closed
+        plt.close('all')
 
 # Generate pie chart for income by source/description
 @app.route('/api/chart/income-sources', methods=['GET'])
@@ -472,26 +473,27 @@ def get_income_sources_chart():
     # Define colors for each source
     colors = ['#4cc9f0', '#4361ee', '#3a0ca3', '#7209b7', '#f72585', '#4895ef', '#4cc9f0', '#f8961e', '#90be6d', '#f9c74f']
     
-    # Clear any previous figures to prevent memory issues
-    plt.close('all')
-    
-    plt.figure(figsize=(10, 8))
-    plt.pie(amounts, labels=sources, autopct='%1.1f%%', colors=colors[:len(sources)], startangle=90)
-    plt.title('Income by Source', fontsize=16, pad=20)
-    plt.axis('equal')
-    
-    # Save plot to a PNG image in memory
-    img_buffer = io.BytesIO()
-    plt.savefig(img_buffer, format='png', bbox_inches='tight')
-    img_buffer.seek(0)
-    
-    # Encode the image in base64
-    img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
-    
-    # Close the figure to free memory
-    plt.close()
-    
-    return jsonify({'image': img_base64})
+    try:
+        # Clear any previous figures to prevent memory issues
+        plt.close('all')
+        
+        fig = plt.figure(figsize=(10, 8))
+        plt.pie(amounts, labels=sources, autopct='%1.1f%%', colors=colors[:len(sources)], startangle=90)
+        plt.title('Income by Source', fontsize=16, pad=20)
+        plt.axis('equal')
+        
+        # Save plot to a PNG image in memory
+        img_buffer = io.BytesIO()
+        fig.savefig(img_buffer, format='png', bbox_inches='tight')
+        img_buffer.seek(0)
+        
+        # Encode the image in base64
+        img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
+        
+        return jsonify({'image': img_base64})
+    finally:
+        # Ensure all figures are closed
+        plt.close('all')
 
 # Generate bar chart for income by month
 @app.route('/api/chart/income-by-month', methods=['GET'])
@@ -517,35 +519,36 @@ def get_income_by_month_chart():
     months = sorted(monthly_income.keys())
     amounts = [monthly_income[month] for month in months]
     
-    # Create bar chart
-    plt.figure(figsize=(12, 6))
-    bars = plt.bar(range(len(months)), amounts, color='#4cc9f0')
-    plt.xlabel('Month')
-    plt.ylabel('Income ($)')
-    plt.title('Monthly Income')
-    plt.xticks(range(len(months)), months, rotation=45)
-    
-    # Add value labels on bars
-    for i, bar in enumerate(bars):
-        height = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width()/2., height,
-                f'${amounts[i]:.2f}',
-                ha='center', va='bottom')
-    
-    plt.tight_layout()
-    
-    # Save plot to a PNG image in memory
-    img_buffer = io.BytesIO()
-    plt.savefig(img_buffer, format='png', bbox_inches='tight')
-    img_buffer.seek(0)
-    
-    # Encode the image in base64
-    img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
-    
-    # Close the figure to free memory
-    plt.close()
-    
-    return jsonify({'image': img_base64})
+    try:
+        # Create bar chart
+        fig = plt.figure(figsize=(12, 6))
+        bars = plt.bar(range(len(months)), amounts, color='#4cc9f0')
+        plt.xlabel('Month')
+        plt.ylabel('Income ($)')
+        plt.title('Monthly Income')
+        plt.xticks(range(len(months)), months, rotation=45)
+        
+        # Add value labels on bars
+        for i, bar in enumerate(bars):
+            height = bar.get_height()
+            plt.text(bar.get_x() + bar.get_width()/2., height,
+                    f'${amounts[i]:.2f}',
+                    ha='center', va='bottom')
+        
+        plt.tight_layout()
+        
+        # Save plot to a PNG image in memory
+        img_buffer = io.BytesIO()
+        fig.savefig(img_buffer, format='png', bbox_inches='tight')
+        img_buffer.seek(0)
+        
+        # Encode the image in base64
+        img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
+        
+        return jsonify({'image': img_base64})
+    finally:
+        # Ensure all figures are closed
+        plt.close('all')
 
 # Generate line chart for expense trends
 @app.route('/api/chart/expense-trends', methods=['GET'])
@@ -571,38 +574,39 @@ def get_expense_trends_chart():
     months = sorted(monthly_expenses.keys())
     amounts = [monthly_expenses[month] for month in months]
     
-    # Create line chart
-    plt.figure(figsize=(12, 6))
-    plt.plot(range(len(months)), amounts, marker='o', linewidth=2, markersize=8, color='#f72585')
-    plt.fill_between(range(len(months)), amounts, alpha=0.3, color='#f72585')
-    plt.xlabel('Month')
-    plt.ylabel('Expenses ($)')
-    plt.title('Monthly Expense Trends')
-    plt.xticks(range(len(months)), months, rotation=45)
-    plt.grid(True, alpha=0.3)
-    
-    # Add value labels on points
-    for i, amount in enumerate(amounts):
-        plt.annotate(f'${amount:.2f}',
-                    (i, amount),
-                    textcoords="offset points",
-                    xytext=(0,10),
-                    ha='center')
-    
-    plt.tight_layout()
-    
-    # Save plot to a PNG image in memory
-    img_buffer = io.BytesIO()
-    plt.savefig(img_buffer, format='png', bbox_inches='tight')
-    img_buffer.seek(0)
-    
-    # Encode the image in base64
-    img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
-    
-    # Close the figure to free memory
-    plt.close()
-    
-    return jsonify({'image': img_base64})
+    try:
+        # Create line chart
+        fig = plt.figure(figsize=(12, 6))
+        plt.plot(range(len(months)), amounts, marker='o', linewidth=2, markersize=8, color='#f72585')
+        plt.fill_between(range(len(months)), amounts, alpha=0.3, color='#f72585')
+        plt.xlabel('Month')
+        plt.ylabel('Expenses ($)')
+        plt.title('Monthly Expense Trends')
+        plt.xticks(range(len(months)), months, rotation=45)
+        plt.grid(True, alpha=0.3)
+        
+        # Add value labels on points
+        for i, amount in enumerate(amounts):
+            plt.annotate(f'${amount:.2f}',
+                        (i, amount),
+                        textcoords="offset points",
+                        xytext=(0,10),
+                        ha='center')
+        
+        plt.tight_layout()
+        
+        # Save plot to a PNG image in memory
+        img_buffer = io.BytesIO()
+        fig.savefig(img_buffer, format='png', bbox_inches='tight')
+        img_buffer.seek(0)
+        
+        # Encode the image in base64
+        img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
+        
+        return jsonify({'image': img_base64})
+    finally:
+        # Ensure all figures are closed
+        plt.close('all')
 
 # Generate daily expense tracking chart
 @app.route('/api/chart/daily-expenses', methods=['GET'])
@@ -628,38 +632,39 @@ def get_daily_expenses_chart():
     dates = sorted(daily_expenses.keys())[-7:]  # Last 7 days
     amounts = [daily_expenses[date] for date in dates]
     
-    # Clear any previous figures to prevent memory issues
-    plt.close('all')
-    
-    # Create bar chart
-    plt.figure(figsize=(12, 6))
-    bars = plt.bar(range(len(dates)), amounts, color='#f72585')
-    plt.xlabel('Date')
-    plt.ylabel('Expenses ($)')
-    plt.title('Daily Expenses (Last 7 Days)')
-    plt.xticks(range(len(dates)), dates, rotation=45)
-    
-    # Add value labels on bars
-    for i, bar in enumerate(bars):
-        height = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width()/2., height,
-                f'${amounts[i]:.2f}',
-                ha='center', va='bottom')
-    
-    plt.tight_layout()
-    
-    # Save plot to a PNG image in memory
-    img_buffer = io.BytesIO()
-    plt.savefig(img_buffer, format='png', bbox_inches='tight')
-    img_buffer.seek(0)
-    
-    # Encode the image in base64
-    img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
-    
-    # Close the figure to free memory
-    plt.close()
-    
-    return jsonify({'image': img_base64})
+    try:
+        # Clear any previous figures to prevent memory issues
+        plt.close('all')
+        
+        # Create bar chart
+        fig = plt.figure(figsize=(12, 6))
+        bars = plt.bar(range(len(dates)), amounts, color='#f72585')
+        plt.xlabel('Date')
+        plt.ylabel('Expenses ($)')
+        plt.title('Daily Expenses (Last 7 Days)')
+        plt.xticks(range(len(dates)), dates, rotation=45)
+        
+        # Add value labels on bars
+        for i, bar in enumerate(bars):
+            height = bar.get_height()
+            plt.text(bar.get_x() + bar.get_width()/2., height,
+                    f'${amounts[i]:.2f}',
+                    ha='center', va='bottom')
+        
+        plt.tight_layout()
+        
+        # Save plot to a PNG image in memory
+        img_buffer = io.BytesIO()
+        fig.savefig(img_buffer, format='png', bbox_inches='tight')
+        img_buffer.seek(0)
+        
+        # Encode the image in base64
+        img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
+        
+        return jsonify({'image': img_base64})
+    finally:
+        # Ensure all figures are closed
+        plt.close('all')
 
 # Generate comparison chart for income vs expenses
 @app.route('/api/chart/income-vs-expenses', methods=['GET'])
@@ -696,40 +701,41 @@ def get_income_vs_expenses_chart():
     x = np.arange(len(months))
     width = 0.35
     
-    plt.figure(figsize=(12, 6))
-    plt.bar(x - width/2, income_amounts, width, label='Income', color='#4cc9f0')
-    plt.bar(x + width/2, expense_amounts, width, label='Expenses', color='#f72585')
-    
-    plt.xlabel('Month')
-    plt.ylabel('Amount ($)')
-    plt.title('Monthly Income vs Expenses')
-    plt.xticks(x, months, rotation=45)
-    plt.legend()
-    plt.grid(True, alpha=0.3)
-    
-    # Add value labels on bars
-    for i, (income, expense) in enumerate(zip(income_amounts, expense_amounts)):
-        plt.text(i - width/2, income + max(income, expense) * 0.01,
-                f'${income:.2f}',
-                ha='center', va='bottom', fontsize=8)
-        plt.text(i + width/2, expense + max(income, expense) * 0.01,
-                f'${expense:.2f}',
-                ha='center', va='bottom', fontsize=8)
-    
-    plt.tight_layout()
-    
-    # Save plot to a PNG image in memory
-    img_buffer = io.BytesIO()
-    plt.savefig(img_buffer, format='png', bbox_inches='tight')
-    img_buffer.seek(0)
-    
-    # Encode the image in base64
-    img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
-    
-    # Close the figure to free memory
-    plt.close()
-    
-    return jsonify({'image': img_base64})
+    try:
+        fig = plt.figure(figsize=(12, 6))
+        plt.bar(x - width/2, income_amounts, width, label='Income', color='#4cc9f0')
+        plt.bar(x + width/2, expense_amounts, width, label='Expenses', color='#f72585')
+        
+        plt.xlabel('Month')
+        plt.ylabel('Amount ($)')
+        plt.title('Monthly Income vs Expenses')
+        plt.xticks(x, months, rotation=45)
+        plt.legend()
+        plt.grid(True, alpha=0.3)
+        
+        # Add value labels on bars
+        for i, (income, expense) in enumerate(zip(income_amounts, expense_amounts)):
+            plt.text(i - width/2, income + max(income, expense) * 0.01,
+                    f'${income:.2f}',
+                    ha='center', va='bottom', fontsize=8)
+            plt.text(i + width/2, expense + max(income, expense) * 0.01,
+                    f'${expense:.2f}',
+                    ha='center', va='bottom', fontsize=8)
+        
+        plt.tight_layout()
+        
+        # Save plot to a PNG image in memory
+        img_buffer = io.BytesIO()
+        fig.savefig(img_buffer, format='png', bbox_inches='tight')
+        img_buffer.seek(0)
+        
+        # Encode the image in base64
+        img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
+        
+        return jsonify({'image': img_base64})
+    finally:
+        # Ensure all figures are closed
+        plt.close('all')
 
 # Generate PDF report
 @app.route('/api/report/pdf', methods=['GET'])
