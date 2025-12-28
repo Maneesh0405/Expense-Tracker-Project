@@ -431,7 +431,7 @@ def get_expense_categories_chart():
     fig, ax = plt.subplots(figsize=(10, 8))
     ax.pie(amounts, labels=categories, autopct='%1.1f%%', colors=colors[:len(categories)], startangle=90)
     ax.set_title('Expenses by Category', fontsize=16, pad=20)
-    ax.axis('equal')
+    plt.axis('equal')
     
     # Save plot to a PNG image in memory
     img_buffer = io.BytesIO()
@@ -480,7 +480,7 @@ def get_income_sources_chart():
     fig, ax = plt.subplots(figsize=(10, 8))
     ax.pie(amounts, labels=sources, autopct='%1.1f%%', colors=colors[:len(sources)], startangle=90)
     ax.set_title('Income by Source', fontsize=16, pad=20)
-    ax.axis('equal')
+    plt.axis('equal')
     
     # Save plot to a PNG image in memory
     img_buffer = io.BytesIO()
