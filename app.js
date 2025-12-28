@@ -1,4 +1,8 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+// Determine API URL based on environment
+const API_BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000/api'
+  : (process.env.REACT_APP_API_URL || `${window.location.origin}/api`);
+
 let currentTab = 'expense';
 let editingId = null;
 let currentUser = null;
